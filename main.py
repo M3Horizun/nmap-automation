@@ -8,11 +8,27 @@ scanner = nmap.PortScanner()
 print("Welcome, to the automation nmap Python script!")
 print("%s%s%s" % ("<", "-"*15, ">"))
 pref = json.load(open("./config/preferences.json", 'r'))
-
-
 clear = 'clear'
+
+# if newcomer then will run the following function
+
+
+def newcomer():
+    print("""
+    We see it is your first time on this computer, we would like to set a few things up!
+    This is a newcomer message, and will NOT appear again.
+    """)
+    pref["first_time"] = False
+    json.dump(pref, open("./config/preferences.json", 'w'))
+    json.load(open("./config/preferences.json", 'r'))
+
+
+if pref["first_time"]:
+    newcomer()
+
 if pref["os"] is None:
-    os = input("Please choose your operating system\n\nwin\nmac\nlinux").lower()
+    os = input(
+        "Please choose your operating system\n\nwin\nmac\nlinux\n").lower()
     os_list = ["win", "linux", "mac"]
     invalid_operating_system = True
     for _os in os_list:
@@ -21,7 +37,7 @@ if pref["os"] is None:
     if invalid_operating_system:
         while invalid_operating_system:
             os = input(
-                "Invalid operating system\nPlease choose your operating system\n\nwin\nmac\nlinux").lower()
+                "Invalid operating system\nPlease choose your operating system\n\nwin\nmac\nlinux\n").lower()
             for _os in os_list:
                 if os == _os:
                     invalid_operating_system = False
