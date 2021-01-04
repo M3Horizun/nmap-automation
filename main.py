@@ -1,5 +1,7 @@
 import nmap
 import json
+import os
+
 
 scanner = nmap.PortScanner()
 
@@ -88,3 +90,20 @@ def select_scan_type():
 
 
 scan_type = select_scan_type()
+
+
+def syn_ack_scan():
+    os.system(clear)
+    ip_addr = input("Enter IP Address: ")
+    print("Commencing SYN ACK Scan")
+    print("Nmap Version: %s" % scanner.nmap_version)
+    print("Running Nmap Command")
+    scanner.scan(ip_addr, "1-1024", "-v", "-sS")
+    print(scanner.scaninfo)
+    print("Ip Address: %s" % scanner[ip_addr].state())
+    print(scanner[ip_addr].all_protocols())
+    print("OPEN PORTS: %s" % scanner[ip_addr]["tcp"].keys())
+
+
+if scan_type == 1:
+    syn_ack_scan()
